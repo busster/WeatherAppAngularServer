@@ -1,0 +1,44 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+
+.loading-screen {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  position: fixed;
+}
+
+
+.main {
+  height: 100%;
+  width: 100%;
+}
+
+.brand-logo {
+  z-index: 10;
+}
+
+.search-field {
+  padding-left: 1rem !important;
+  width: calc(100% - 1rem) !important;
+}
+
+.weather {
+  height: 30%;
+  background-color: pink;
+}
+
+
+@media only screen and (max-device-width: 480px) {
+  .weather {
+    height: 100%;
+  }
+}
+
+
+.no-z-index {
+  z-index: 0 !important;
+}

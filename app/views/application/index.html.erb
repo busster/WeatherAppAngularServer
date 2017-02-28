@@ -1,0 +1,63 @@
+<!-- <div class="loading-screen"></div> -->
+
+<div class="main">
+    
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZoccc4EfWOS2RWrYoqcFcS64lU4pnXXU&libraries=places&callback=initAutocomplete" async defer></script>
+
+
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo right">Logo</a>
+        <!-- <div id="nav-mobile" class="left"> -->
+        <div class="input-field">
+          <input id="search" class="search-field" placeholder="Enter a place" onFocus="geolocate()" type="search"></input>
+          <i class="material-icons">cancel</i>
+        </div>
+      </div>
+    </nav>
+
+
+
+
+
+
+  <div class="weather main-cont">
+
+  </div>
+  <div class="weather weekly-forecast">
+
+  </div>
+  <div class="weather historic-data">
+
+  </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<figure class="icons">
+  <canvas id="icon" width="64" height="64">
+  </canvas>
+</figure>
+
+<script>
+ var skycons = new Skycons({"color": "black", "resizeClear": true});
+
+
+skycons.add("icon", Skycons.PARTLY_CLOUDY_DAY);
+skycons.play();
+</script>

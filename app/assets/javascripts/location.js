@@ -1,9 +1,44 @@
-// This example displays an address form, using the autocomplete feature
-// of the Google Places API to help users fill in the information.
 
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+
+function initialLocation() {
+  var options = {
+    async: false,
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+  };
+
+  function success(pos) {
+    
+    return $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + pos.coords.latitude + ',' + pos.coords.longitude + '&key=AIzaSyCZoccc4EfWOS2RWrYoqcFcS64lU4pnXXU',
+      method: 'GET'
+    }).done(function(res) {
+      console.log(res)
+      var coords = {lat: pos.coords.latitude, lng: pos.coords.longitude, locationName: res.results[2]['address_components'][1]['long_name'] + ", " + res.results[2]['address_components'][3]['short_name'] }
+      handleWeatherLoad(coords);
+    }).fail(function() {
+
+    });
+  };
+
+  function error(err) {
+    var coords = {lat: "41.8781", lng: "-87.6298", locationName: "Chicago, IL"}
+    handleLoad(coords);
+  };
+
+  navigator.geolocation.getCurrentPosition(success, error, options);
+};
+
+
+
+
+
+
+
+
+
 
 var placeSearch, autocomplete;
 var componentForm = {
@@ -32,9 +67,13 @@ function fillInAddress() {
   var place = autocomplete.getPlace();
   var lat = place.geometry.location.lat()
   var lng = place.geometry.location.lng();
+  console.log(place)
+  var coords = {lat: lat, lng: lng, locationName: place.formatted_address};
 
   // function in weather.js
-  test({lat: lat, lng: lng});
+  smallLoader();
+  $('.weather-cont').remove();
+  handleWeatherLoad(coords);
 
   // console.log(place.geometry.location.lat() + ", " + place.geometry.location.lng())
   // for (var component in componentForm) {

@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   root 'application#index'
 
   post 'weather', to: 'weather#create'
+  post 'historic', to: 'weather#historic'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

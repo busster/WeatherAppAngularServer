@@ -1,0 +1,63 @@
+@import 'main';
+
+.tab > a {
+  color: $colorB !important;
+}
+
+.active-tab {
+  border-bottom: 1px solid $colorA;
+}
+.active-tab > a {
+  color: $colorA !important;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+p.space {
+    margin: 15px 0;   
+}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 1;
+    fill: none;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-dasharray: 0;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.area {
+  fill: lightblue;
+  opacity: 0.2;
+}
+
+.x-tip, .y-tip {
+    stroke: grey;
+    stroke-dasharray: 0,0;
+    opacity: 0.5;
+}
+
+#graph {
+  height: 100%;
+    margin: 0;
+}
+
+input {
+  background: none;
+  border: none;
+  border-bottom: thin dotted grey;
+  width: 150px;
+  font-size: 12px;
+}
+
+td {
+    margin-left: 15px;
+}

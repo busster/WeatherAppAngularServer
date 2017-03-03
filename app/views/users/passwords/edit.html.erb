@@ -1,4 +1,10 @@
-<h2>Change your password</h2>
+<div style="padding: 25px;" class="">
+  
+<h1 style="text-align: center;">Skycast Weather</h1>
+
+
+
+<h5>Change your password</h5>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -18,8 +24,10 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit "Change my password", class: "waves-effect waves-light btn" %>
   </div>
 <% end %>
 
 <%= render "users/shared/links" %>
+
+</div>

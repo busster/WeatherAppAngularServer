@@ -75,11 +75,11 @@ class Now
 
   def initialize(args)
     @icon = args['icon']
-    @visibility = args['visibility']
-    @dewPoint = args['dewPoint']
-    @pressure = args['pressure']
+    @visibility = Units.visibility(args['visibility'])
+    @dewPoint = Temperature.temp(args['dewPoint'])
+    @pressure = Units.pressure_inches(args['pressure'])
     @windBearing = args['windBearing']
-    @windSpeed = args['windSpeed']
+    @windSpeed = Units.mph(args['windSpeed'])
     @humidity = Percentage.percent(args['humidity'])
     @cloudCover = Percentage.percent(args['cloudCover'])
     @summary = args['summary']
@@ -118,7 +118,7 @@ class Today
   # attr_accessor :now
 
   def initialize(args)
-    @ozone = args['ozone']
+    @ozone = Units.ozone(args['ozone'])
     @sunsetTime = HumanTime.time(args['sunsetTime'])
     @sunriseTime = HumanTime.time(args['sunriseTime'])
     @temperatureMinTime = HumanTime.time(args['temperatureMinTime'])
@@ -213,6 +213,20 @@ module Percentage
   end
 end
 
+module Units
+  def self.mph(speed)
+    speed.to_s + ' mph'
+  end
+  def self.pressure_inches(pressure)
+    (pressure * 0.02953).to_s + ' in'
+  end
+  def self.ozone(unit)
+    unit.to_s + ' Du'
+  end
+  def self.visibility(dist)
+    dist.to_s + ' mi'
+  end
+end
 
 
 

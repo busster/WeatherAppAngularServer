@@ -84,7 +84,6 @@ function fillInAddress() {
 
     var lat = place.geometry.location.lat()
     var lng = place.geometry.location.lng();
-    console.log(place)
     var coords = {lat: lat, lng: lng, locationName: place.name};
 
     logSearch(coords);
@@ -104,7 +103,7 @@ function fillInAddress() {
         var coordPoint = res.results[0].geometry.location;
         var name = res.results[0].address_components[0].long_name;
         var coords = {lat: coordPoint.lat, lng: coordPoint.lng, locationName: name}
-        console.log('handle')
+        logSearch(coords);
         smallLoader();
         $('.weather-cont').remove();
         handleWeatherLoad(coords);

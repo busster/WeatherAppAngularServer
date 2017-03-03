@@ -94,8 +94,29 @@ function fillInAddress() {
     handleWeatherLoad(coords);
 
   } else {
-    $('body').prepend('<p class="alert alert-danger">Select a place from the populated list.</p>')
-    removeAlert();
+    console.log(place)
+    return $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + place.name + '&key=AIzaSyCZoccc4EfWOS2RWrYoqcFcS64lU4pnXXU',
+      method: 'GET'
+    }).done(function(res) {
+      console.log(res)
+      if (res.status !== "ZERO_RESULTS") {
+        var coordPoint = res.results[0].geometry.location;
+        var name = res.results[0].address_components[0].long_name;
+        var coords = {lat: coordPoint.lat, lng: coordPoint.lng, locationName: name}
+        console.log('handle')
+        smallLoader();
+        $('.weather-cont').remove();
+        handleWeatherLoad(coords);
+      } else {
+        $('body').prepend('<p class="alert alert-danger">I didn\'t seem to find anything. Try selecting a place from the populated list as you type.</p>')
+        removeAlert();
+      }
+    }).fail(function() {
+      console.log('nothing')
+    });
+
+
   }
   // console.log(place.geometry.location.lat() + ", " + place.geometry.location.lng())
   // for (var component in componentForm) {

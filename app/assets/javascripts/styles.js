@@ -6,6 +6,5 @@ $(".application.index").ready(function(){
     $('.brand-logo').removeClass('no-z-index')
   })
 
-
 });
 

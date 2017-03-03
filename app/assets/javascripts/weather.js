@@ -1,15 +1,41 @@
-$(".application.index").ready(function(){
-  // handleInitialLocationLoad();
-
-  // bindCreateTweetEvent();
-
-  
-
-  fullLoader();
-  initialLocation();
+var ready = function() {
+  window.onpopstate = function() {
+    fullLoader();
+    location.reload();
+  }
 
 
-});
+  // initialLocationScript();
+
+  var hash = window.location.hash;
+  if (hash === '') {
+    fullLoader();
+    initialLocation();
+  } else {
+    fullLoader();
+    handleLoad(parseHashString(hash))
+    removeHash()
+  }
+};
+
+$(".application.index").ready(ready);
+$(document).on('page:change', ready);
+
+
+function parseHashString(hash) {
+  strData = hash.match(/[^#]*\w/);
+  data = strData[0].split('/');
+  var locationName = data[0].replace(/%20/g, " ");
+  data = data[1].split(',');
+  var lat = data[0];
+  var lng = data[1];
+  return {lat: lat, lng: lng, locationName: locationName}
+}
+function removeHash () { 
+    history.pushState("", document.title, window.location.pathname
+                                                       + window.location.search);
+}
+
 
 function handleLoad(locationData) {
   handleWeatherLoad(locationData);
@@ -345,6 +371,7 @@ function showWeather(weatherData) {
   $('.main').append(renderWeather(weatherData))
   renderSkyIcon(weatherData)
   handleHistoricForecastLoad(weatherData['geo_coordinates'])
+  // removeLoader()
   
 }
 
@@ -365,14 +392,15 @@ function renderWeather(weatherData) {
             '<div class="summary">' + weatherData.today.now.summary + '</div>' +
           '</figure>' +
           '<div class="summary-cont">' +
-            '<div class="location">' + weatherData.today.now.location + '</div>' +
-            '<div class="time">Weather as of: ' + weatherData.today.now.time + '</div>' +
-            ( weatherData.today.precipProbability  !== "0" ?  '<div class="precipitation">' + weatherData.today.precipProbability + weatherData.today.precipType + '</div>' : "" ) +
+            '<h4 class="location">' + weatherData.today.now.location + '</h4>' +
+            '<div class="time">' + weatherData.today.now.time + '</div>' +
+            ( weatherData.today.precipType  !== null ?  '<div class="precipitation">' + weatherData.today.precipProbability + " of " + weatherData.today.precipType + '</div>' : "" ) +
             '<div class="apparent">Feels like: ' + weatherData.today.now.apparentTemperature + '</div>' +
-            '<div class="hi-lo">High: ' + weatherData.today.temperatureMax + ' at ' + weatherData.today.temperatureMaxTime + ' - Low: ' + weatherData.today.temperatureMin + ' at ' + weatherData.today.temperatureMinTime + '</div>' +
+            '<div class="hi-lo"><b>H </b> ' + weatherData.today.temperatureMax + ' @ ' + weatherData.today.temperatureMaxTime + '</div>' +
+            '<div class="hi-lo"><b>L </b> ' + weatherData.today.temperatureMin + ' @ ' + weatherData.today.temperatureMinTime + '</div>' +
             '<div class="card-panel alerts-cont">Alerts: ' +
               '<ul class="alerts collection">';
-              if (weatherData.alerts.length >= 1) {
+              if (weatherData.alerts) {
                 weatherData.alerts.forEach(function(alert) {
                   weather += '' +
                   '<li class="collection-item alert">' +
@@ -388,6 +416,7 @@ function renderWeather(weatherData) {
         '</div>' +
       '</div>' +
       '<div class="card-panel today misc">' +
+        '<h4>Today</h4>' +
         '<div class="cloud-cover">Cloud Coverage: ' + weatherData.today.now.cloudCover + '</div>' +
         '<div class="humidity">Humidity: ' + weatherData.today.now.humidity + '</div>' +
         '<div class="wind-speed">Wind Speed: ' + weatherData.today.now.windSpeed + '</div>' +
@@ -400,7 +429,8 @@ function renderWeather(weatherData) {
         '<div class="sunrise">Sunrise: ' + weatherData.today.sunriseTime + '</div>' +
         '<div class="sunset">Sunset: ' + weatherData.today.sunsetTime + '</div>' +
       '</div>' +
-      '<div class="card-panel today hours">';
+      '<div class="card-panel today hours">' +
+        '<h4>Hourly Forecast</h4>';
         for (var i=0; i < 10; i++) {
           weather += '' +
           '<div class="hours-cont">' +
@@ -415,6 +445,7 @@ function renderWeather(weatherData) {
         };
       weather += '' +
       '</div>' +
+      '<div id="clear" style="clear:both;"></div>' +
     '</div>' +
     '<div class="weather weekly-forecast">';
       for (var i=0; i<7; i++) {
@@ -427,7 +458,7 @@ function renderWeather(weatherData) {
             '<div class="day-summary">' + weatherData.future_days[i].summary +  '</div>' +
             '<div class="day-temp">H ' + weatherData.future_days[i].temperatureMax + '</div>' +
             '<div class="day-temp">L ' + weatherData.future_days[i].temperatureMin + '</div>' +
-            ( weatherData.future_days[i].precipProbability  !== 0 ? '<div class="day-precipitation">' + weatherData.future_days[i].precipProbability + ' - ' + weatherData.future_days[i].precipType + '</div>' : "" ) +
+            ( weatherData.future_days[i].precipType  !== null ? '<div class="day-precipitation">' + weatherData.future_days[i].precipProbability + ' - ' + weatherData.future_days[i].precipType + '</div>' : "" ) +
         '</div>';
       }
       // '<div class="weekly-summary">' + weatherData.daily.summary + '</div>' +
@@ -436,6 +467,7 @@ function renderWeather(weatherData) {
     '<div class="weather historic-data">' +
       '<div id="graph" class="card-panel"></div>' +
     '</div>' +
+    '<div id="clear" style="clear:both;"></div>' +
   '</div>' +
   '';
 

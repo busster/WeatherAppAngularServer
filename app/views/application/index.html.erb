@@ -1,4 +1,3 @@
-
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 <div class="main">
@@ -9,7 +8,8 @@
 <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo right">Logo</a>
+        <!-- <%= link_to current_user.first_name, profile_path(current_user), class: "btn btn-info" %> -->
+        <a href="/profile" class="brand-logo right"><%= current_user.first_name %></a>
         <!-- <div id="nav-mobile" class="left"> -->
         <div class="input-field">
           <input id="search" class="search-field" placeholder="Enter and choose a place" onFocus="geolocate()" type="search"></input>

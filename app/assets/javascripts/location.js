@@ -10,13 +10,11 @@ function initialLocation() {
   };
 
   function success(pos) {
-    
     return $.ajax({
       url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + pos.coords.latitude + ',' + pos.coords.longitude + '&key=AIzaSyCZoccc4EfWOS2RWrYoqcFcS64lU4pnXXU',
       method: 'GET'
     }).done(function(res) {
-      console.log(res)
-      var coords = {lat: pos.coords.latitude, lng: pos.coords.longitude, locationName: res.results[2]['address_components'][1]['long_name'] + ", " + res.results[2]['address_components'][3]['short_name'] }
+      var coords = {lat: pos.coords.latitude, lng: pos.coords.longitude, locationName: res.results[2]['address_components'][1]['long_name']}
       handleWeatherLoad(coords);
     }).fail(function() {
 
@@ -24,7 +22,8 @@ function initialLocation() {
   };
 
   function error(err) {
-    var coords = {lat: "41.8781", lng: "-87.6298", locationName: "Chicago, IL"}
+    console.log(err)
+    var coords = {lat: "41.8781", lng: "-87.6298", locationName: "Chicago"}
     handleLoad(coords);
   };
 
@@ -33,9 +32,25 @@ function initialLocation() {
 
 
 
+function initialLocationScript() {
+  jQuery(function(){
+  if(!window.google||!window.google.maps){
+      var script = '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZoccc4EfWOS2RWrYoqcFcS64lU4pnXXU&libraries=places&callback=initAutocomplete" async defer></script>'
+      $('body').prepend(script);
+  }
+  else{
+    initialize();
+  }});
+}
 
 
-
+function logSearch(locationData) {
+  return $.ajax({
+    url: '/search',
+    data: {coord_data: locationData},
+    method: 'POST'
+  });
+}
 
 
 
@@ -65,16 +80,23 @@ function initAutocomplete() {
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-  var lat = place.geometry.location.lat()
-  var lng = place.geometry.location.lng();
-  console.log(place)
-  var coords = {lat: lat, lng: lng, locationName: place.formatted_address};
+  if (place.geometry !== undefined) {
 
-  // function in weather.js
-  smallLoader();
-  $('.weather-cont').remove();
-  handleWeatherLoad(coords);
+    var lat = place.geometry.location.lat()
+    var lng = place.geometry.location.lng();
+    console.log(place)
+    var coords = {lat: lat, lng: lng, locationName: place.name};
 
+    logSearch(coords);
+    // function in weather.js
+    smallLoader();
+    $('.weather-cont').remove();
+    handleWeatherLoad(coords);
+
+  } else {
+    $('body').prepend('<p class="alert alert-danger">Select a place from the populated list.</p>')
+    removeAlert();
+  }
   // console.log(place.geometry.location.lat() + ", " + place.geometry.location.lng())
   // for (var component in componentForm) {
   //   document.getElementById(component).value = '';

@@ -1,10 +1,20 @@
 class WeatherController < ApplicationController
   require "open-uri"
 
-  def create
-    uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
+  def test
+    render json: {hey: 'sup'}
+  end
 
-    weather_data = JSON.parse(URI.parse(uri).read)
+  def search
+    search = Search.create(place: weather_params[:locationName], lat: weather_params[:lat], lng: weather_params[:lng], user_id: current_user.id)
+  end
+
+
+  def create
+    # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
+
+    # weather_data = JSON.parse(URI.parse(uri).read)
+    weather_data = JSON.parse(File.read("#{Rails.root}/test/test_data_forecast.json"))
     weather_data['locationName'] = weather_params[:locationName]
     weather_data['geo_coordinates'] = {lat: weather_params[:lat], lng: weather_params[:lng]}
     weather_data = Weather.serialize_today_data(weather_data)
@@ -22,8 +32,10 @@ class WeatherController < ApplicationController
     day_in_sec = 24 * 60 * 60
     31.times do |x|
       time = t - ((31 - x) * day_in_sec)
-      uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]},#{time}"
-      historic_data << JSON.parse(URI.parse(uri).read)
+      # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]},#{time}"
+      # historic_data << JSON.parse(URI.parse(uri).read)
+
+      historic_data << JSON.parse(File.read("#{Rails.root}/test/test_data_time_machine.json"))
     end
 
     # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
@@ -38,9 +50,9 @@ class WeatherController < ApplicationController
     weather_data = Weather.serialize_historic_data(historic_data)
 
 
-    # 28.times do 
-    #   weather_data.pop
-    # end
+    29.times do 
+      weather_data.pop
+    end
 
     if weather_data
       # weather_data['locationName'] = weather_params[:locationName]

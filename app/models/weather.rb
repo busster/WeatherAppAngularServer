@@ -13,9 +13,11 @@ class Weather
     end
     hours.shift
 
-    alerts = []
-    data['alerts'].each do |alert|
-      alerts << Alert.new(alert)
+    if data['alerts']
+      alerts = []
+      data['alerts'].each do |alert|
+        alerts << Alert.new(alert)
+      end
     end
 
     future_days = []

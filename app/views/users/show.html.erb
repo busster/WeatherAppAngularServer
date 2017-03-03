@@ -1,0 +1,29 @@
+<div class="navbar-fixed profile-nav">
+      <nav>
+    <div class="nav-wrapper">
+      <%= link_to "Skycast", root_path, class: "brand-logo left", method: :get %>
+      <ul class="right">
+        <li><%= link_to "Log out", destroy_user_session_path, :method => :delete %></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+
+<h1 class="profile-title">Hello <%= current_user.first_name %></h1>
+
+
+<h5 class="search-header">Your previous searches:</h5>
+
+<div class="collection">
+<% @searches.each do |search| %>
+    <%= link_to search.place, root_path(:anchor => "#{search.place}/#{search.lat},#{search.lng}/"), class: "collection-item search-hist", method: :get %>
+<% end %>
+</div>
+
+
+
+
+
+

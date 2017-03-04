@@ -52,9 +52,9 @@ class WeatherController < ApplicationController
     weather_data = Weather.serialize_historic_data(historic_data)
 
 
-    29.times do 
-      weather_data.pop
-    end
+    # 29.times do 
+    #   weather_data.pop
+    # end
 
     if weather_data
       # weather_data['locationName'] = weather_params[:locationName]

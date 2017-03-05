@@ -19,6 +19,8 @@ class WeatherController < ApplicationController
 
     uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
     weather_data = JSON.parse(URI.parse(uri).read)
+    p uri
+    p weather_data
 
     weather_data['locationName'] = params['weather_payload']['coords'][:locationName]
     weather_data['geo_coordinates'] = {lat: params['weather_payload']['coords'][:lat], lng: params['weather_payload']['coords'][:lng]}

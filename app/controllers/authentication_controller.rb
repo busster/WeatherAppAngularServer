@@ -6,6 +6,7 @@ class AuthenticationController < ApplicationController
   end
 
   def register
+    p params
     if params['confirm_password'] == params['password']
       user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['confirm_password'])
       if user.save

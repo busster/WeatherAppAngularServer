@@ -15,12 +15,10 @@ module Skycast
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options], credentials: true
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
     
-    class Application < Rails::Application
-      config.middleware.use Rack::Deflater
-    end
+    
   end
 end

@@ -26,7 +26,7 @@ class WeatherController < ApplicationController
     weather_data['geo_coordinates'] = {lat: params['weather_payload']['coords'][:lat], lng: params['weather_payload']['coords'][:lng]}
     weather_data = Weather.serialize_today_data(weather_data)
     if weather_data
-      render json: weather_data, status: ok
+      render status: 200, json: weather_data
     else
 
     end
@@ -66,7 +66,7 @@ class WeatherController < ApplicationController
 
     if weather_data
       # weather_data['locationName'] = weather_params[:locationName]
-      render json: weather_data, status: ok
+      render status: 200, json: weather_data
     else
 
     end

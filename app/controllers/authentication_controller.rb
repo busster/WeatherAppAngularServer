@@ -6,14 +6,15 @@ class AuthenticationController < ApplicationController
   end
 
   def register
-    p "*******"
-    p params
-    p "*******"
-    user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['confirm_password'])
-    if user.save
-      render json: payload(user)
+    if params['confirm_password'] == params['password']
+      user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['confirm_password'])
+      if user.save
+        render json: payload(user)
+      else
+        render json: {errors: ['Must include all fields']}
+      end
     else
-      render json: {errors: ['Must include all fields, and match passwords']}
+      render json: {errors: ['Passwords must match']}
     end
   end
 

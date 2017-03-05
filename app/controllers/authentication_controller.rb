@@ -7,8 +7,8 @@ class AuthenticationController < ApplicationController
 
   def register
     p params
-    if params['confirm_password'] == params['password']
-      user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['confirm_password'])
+    if params['password_confirm'] == params['password']
+      user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['password_confirm'])
       if user.save
         render json: payload(user)
       else

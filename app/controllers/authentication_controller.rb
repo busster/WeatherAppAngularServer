@@ -12,6 +12,8 @@ class AuthenticationController < ApplicationController
     user = User.new(:first_name => params['first_name'], :last_name => params['last_name'], :email => params['email'], :password => params['password'], :password_confirmation => params['confirm_password'])
     if user.save
       render json: payload(user)
+    else
+      render json: {errors: ['Must include all fields, and match passwords']}
     end
   end
 

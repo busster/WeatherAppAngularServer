@@ -61,4 +61,4 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 # gem 'devise_token_auth'
 gem 'devise'
-
+gem 'jwt'

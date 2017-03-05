@@ -196,7 +196,7 @@ module HumanTime
     Time.at(time.to_i).to_datetime.strftime("%A")
   end
   def self.day_graph(time)
-    Time.at(time.to_i).to_datetime.strftime("%Y-%m-%d")
+    Time.at(time.to_i).to_datetime.strftime("%m-%d")
   end
 end
 

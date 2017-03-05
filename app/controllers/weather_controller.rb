@@ -18,8 +18,8 @@ class WeatherController < ApplicationController
     # weather_data = JSON.parse(File.read("#{Rails.root}/test/test_data_forecast.json"))
 
     uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
-    weather_data = JSON.parse(URI.parse(uri).read)
     p uri
+    weather_data = JSON.parse(URI.parse(uri).read)
     p weather_data
 
     weather_data['locationName'] = params['weather_payload']['coords'][:locationName]
@@ -45,7 +45,7 @@ class WeatherController < ApplicationController
       historic_data << JSON.parse(File.read("#{Rails.root}/test/test_data_time_machine.json"))
       
       # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]},#{time}"
-      historic_data << JSON.parse(URI.parse(uri).read)
+      # historic_data << JSON.parse(URI.parse(uri).read)
     end
 
     # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"

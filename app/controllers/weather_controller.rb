@@ -11,10 +11,10 @@ class WeatherController < ApplicationController
 
 
   def create
-    weather_data = JSON.parse(File.read("#{Rails.root}/test/test_data_forecast.json"))
+    # weather_data = JSON.parse(File.read("#{Rails.root}/test/test_data_forecast.json"))
 
-    # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
-    # weather_data = JSON.parse(URI.parse(uri).read)
+    uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]}"
+    weather_data = JSON.parse(URI.parse(uri).read)
 
     weather_data['locationName'] = weather_params[:locationName]
     weather_data['geo_coordinates'] = {lat: weather_params[:lat], lng: weather_params[:lng]}

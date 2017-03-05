@@ -100,4 +100,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_cable.allowed_request_origins = ['https://quiet-wave-59477.herokuapp.com', 'http://quiet-wave-59477.herokuapp.com', 'http://localhost:4200', /^file:\/\/.*/]
 end

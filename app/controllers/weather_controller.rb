@@ -40,9 +40,9 @@ class WeatherController < ApplicationController
     31.times do |x|
       time = t - ((31 - x) * day_in_sec)
 
-      # historic_data << JSON.parse(File.read("#{Rails.root}/test/test_data_time_machine.json"))
+      historic_data << JSON.parse(File.read("#{Rails.root}/test/test_data_time_machine.json"))
       
-      uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]},#{time}"
+      # uri = "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/#{weather_params[:lat]},#{weather_params[:lng]},#{time}"
       historic_data << JSON.parse(URI.parse(uri).read)
     end
 

@@ -24,7 +24,7 @@ class AuthenticationController < ApplicationController
         render json: {errors: ['Invalid Username/Password']}, status: :unauthorized
       end
     else
-      render json: {errors: ['Invalid Username/Password']}, status: :unauthorized
+      render json: {errors: ['Invalid Username/Password']}
     end
   end
 
